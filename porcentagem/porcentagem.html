@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculadora de Porcentagem</title>
+</head>
+<body>
+    <h1>Calculadora de Porcentagem</h1>
+    
+    <h2>Conjunto 1</h2>
+
+    <label for="descricao1">Descrição:</label>
+    <input type="text" id="descricao1">
+
+    <label for="valorAtual1">Digite o valor atual:</label>
+    <input type="number" id="valorAtual1" min="0" step="0.01">
+    
+    <label for="valorTotal1">Digite o valor total:</label>
+    <input type="number" id="valorTotal1" min="0" step="0.01">
+    
+    <button onclick="calcularPorcentagem(1)">Calcular</button>
+    
+    <p id="resultado1"></p>
+    
+    <h2>Conjunto 2</h2>
+
+    <label for="descricao2">Descrição:</label>
+    <input type="text" id="descricao2">
+
+    <label for="valorAtual2">Digite o valor atual:</label>
+    <input type="number" id="valorAtual2" min="0" step="0.01">
+    
+    <label for="valorTotal2">Digite o valor total:</label>
+    <input type="number" id="valorTotal2" min="0" step="0.01">
+    
+    <button onclick="calcularPorcentagem(2)">Calcular</button>
+    
+    <p id="resultado2"></p>
+
+    <script>
+        // Recuperar valores armazenados no localStorage para o conjunto 1, se existirem
+        const valorAtualInput1 = document.getElementById('valorAtual1');
+        const valorTotalInput1 = document.getElementById('valorTotal1');
+        const descricaoInput1 = document.getElementById('descricao1');
+        
+        if (localStorage.getItem('valorAtual1')) {
+            valorAtualInput1.value = localStorage.getItem('valorAtual1');
+        }
+        
+        if (localStorage.getItem('valorTotal1')) {
+            valorTotalInput1.value = localStorage.getItem('valorTotal1');
+        }
+
+        if (localStorage.getItem('descricao1')) {
+            descricaoInput1.value = localStorage.getItem('descricao1');
+        }
+
+        // Recuperar valores armazenados no localStorage para o conjunto 2, se existirem
+        const valorAtualInput2 = document.getElementById('valorAtual2');
+        const valorTotalInput2 = document.getElementById('valorTotal2');
+        const descricaoInput2 = document.getElementById('descricao2');
+        
+        if (localStorage.getItem('valorAtual2')) {
+            valorAtualInput2.value = localStorage.getItem('valorAtual2');
+        }
+        
+        if (localStorage.getItem('valorTotal2')) {
+            valorTotalInput2.value = localStorage.getItem('valorTotal2');
+        }
+
+        if (localStorage.getItem('descricao2')) {
+            descricaoInput2.value = localStorage.getItem('descricao2');
+        }
+
+        function calcularPorcentagem(id) {
+            const valorAtualInput = document.getElementById(`valorAtual${id}`);
+            const valorTotalInput = document.getElementById(`valorTotal${id}`);
+            const descricaoInput = document.getElementById(`descricao${id}`);
+            const resultadoOutput = document.getElementById(`resultado${id}`);
+
+            const valorAtual = parseFloat(valorAtualInput.value);
+            const valorTotal = parseFloat(valorTotalInput.value);
+            const descricao = descricaoInput.value;
+
+            if (!isNaN(valorAtual) && !isNaN(valorTotal) && valorTotal > 0) {
+                const porcentagemAtigida = ((valorAtual / valorTotal) * 100).toFixed(2);
+                const porcentagemFaltante = (100 - porcentagemAtigida).toFixed(2);
+                resultadoOutput.textContent = `Você atingiu ${porcentagemAtigida}% do total e falta ${porcentagemFaltante}% para atingir o total.`;
+
+                // Armazenar os valores no localStorage com chaves únicas para cada conjunto
+                localStorage.setItem(`valorAtual${id}`, valorAtual);
+                localStorage.setItem(`valorTotal${id}`, valorTotal);
+                localStorage.setItem(`descricao${id}`, descricao);
+            } else {
+                alert('Por favor, insira valores válidos.');
+            }
+        }
+    </script>
+</body>
+</html>
